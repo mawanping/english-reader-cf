@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 英语阅读 · 外刊精读 + 题目生成</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <h1>AI English Reader</h1>
+  <span class="subtitle">输入单词 → 生成文章 → 精读 + 练题</span>
+</header>
+
+<!-- Usage info bar -->
+<div id="usageBar" class="usage-bar">
+  <span>剩余免费次数：<strong id="remainingCount">3</strong></span>
+  <button id="btnUnlock" class="btn-unlock">输入解锁码</button>
+</div>
+
+<!-- Unlock modal -->
+<div id="unlockModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>输入解锁码</h3>
+    <p>如需无限使用，请联系 QQ邮箱: 1834109164@qq.com 或 微信: mwp565 获取解锁码</p>
+    <input type="text" id="unlockInput" placeholder="请输入解锁码">
+    <div class="modal-btns">
+      <button id="btnUnlockSubmit" class="btn-primary">确认</button>
+      <button id="btnUnlockCancel" class="btn-secondary">取消</button>
+    </div>
+    <p id="unlockError" class="unlock-error hidden"></p>
+  </div>
+</div>
+
+<!-- Control Bar -->
+<div class="control-bar">
+  <div class="input-group">
+    <textarea id="wordInput" placeholder="输入单词，用逗号或空格分隔&#10;例如：adventure, discover, courage, mysterious, treasure" rows="2"></textarea>
+    <div class="input-row">
+      <select id="levelSelect">
+        <option value="primary">小学</option>
+        <option value="junior" selected>初中</option>
+        <option value="senior">高中</option>
+      </select>
+      <button id="btnGenerate" class="btn-primary">生成文章</button>
+      <button id="btnGenerateEx" class="btn-secondary" disabled>生成题目</button>
+    </div>
+  </div>
+  <div class="export-group">
+    <button id="btnPdf" class="btn-export" disabled title="导出PDF">PDF</button>
+    <button id="btnWord" class="btn-export" disabled title="导出Word">Word</button>
+  </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay hidden">
+  <div class="spinner"></div>
+  <p id="loadingText">正在生成文章...</p>
+</div>
+
+<nav id="tabBar" class="tab-bar hidden">
+  <button class="tab-btn active" data-tab="article">文章精读</button>
+  <button class="tab-btn" data-tab="wordGapFill">选词填空</button>
+  <button class="tab-btn" data-tab="cloze">完形填空</button>
+  <button class="tab-btn" data-tab="sevenChooseFive">七选五</button>
+  <button class="tab-btn" data-tab="reading">阅读理解</button>
+</nav>
+
+<div id="errorBox" class="error-box hidden"></div>
+
+<!-- Article View -->
+<div id="viewArticle" class="view-container">
+  <div class="article-layout">
+    <div class="article-main">
+      <h2 id="articleTitle" class="article-title"></h2>
+      <div id="articleContent" class="article-content"></div>
+    </div>
+    <aside id="phraseSidebar" class="phrase-sidebar">
+      <h3>重点短语</h3>
+      <ul id="phraseList"></ul>
+    </aside>
+  </div>
+</div>
+
+<!-- Word Gap Fill -->
+<div id="viewWordGapFill" class="view-container hidden">
+  <h2 id="wgfTitle" class="ex-title"></h2>
+  <p id="wgfInstructions" class="ex-instructions"></p>
+  <div id="wgfWordBank" class="word-bank"></div>
+  <div id="wgfPassage" class="ex-passage"></div>
+  <button class="btn-check" data-ex="wordGapFill">检查答案</button>
+  <div id="wgfResult" class="ex-result hidden"></div>
+</div>
+
+<!-- Cloze -->
+<div id="viewCloze" class="view-container hidden">
+  <h2 id="clozeTitle" class="ex-title"></h2>
+  <div id="clozePassage" class="ex-passage"></div>
+  <button class="btn-check" data-ex="cloze">检查答案</button>
+  <div id="clozeResult" class="ex-result hidden"></div>
+</div>
+
+<!-- Seven Choose Five -->
+<div id="viewSevenChooseFive" class="view-container hidden">
+  <h2 id="scfTitle" class="ex-title"></h2>
+  <p id="scfInstructions" class="ex-instructions"></p>
+  <div id="scfPassage" class="ex-passage"></div>
+  <div id="scfOptions" class="scf-options"></div>
+  <button class="btn-check" data-ex="sevenChooseFive">检查答案</button>
+  <div id="scfResult" class="ex-result hidden"></div>
+</div>
+
+<!-- Reading Comprehension -->
+<div id="viewReading" class="view-container hidden">
+  <h2 id="rcTitle" class="ex-title"></h2>
+  <div id="rcQuestions"></div>
+  <button class="btn-check" data-ex="reading">检查答案</button>
+  <div id="rcResult" class="ex-result hidden"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
