@@ -1,5 +1,12 @@
 {
   "name": "english-reader-cf",
   "version": "1.0.0",
-  "description": "AI English Reader on Cloudflare Pages"
+  "description": "AI English Reader on Cloudflare Pages",
+  "devDependencies": {
+    "wrangler": "^4.98.0"
+  },
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  }
 }
